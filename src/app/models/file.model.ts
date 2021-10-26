@@ -3,5 +3,5 @@ export class File {
     name?: string;
     url?: string;
     size?: number;
-    extension?: string;
+    created?: string;
 }

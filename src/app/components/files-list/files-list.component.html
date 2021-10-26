@@ -1,63 +1,28 @@
-<div class="list row">
-    <div class="col-md-8">
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search by name"
-          [(ngModel)]="name"
-        />
-        <div class="input-group-append">
-          <button
-            class="btn btn-outline-secondary"
-            type="button"
-            (click)="searchName()"
-          >
-            Search
-          </button>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-header">
+        <h5>Created files</h5>
     </div>
-    <div class="col-md-6">
-      <h4>File List</h4>
-      <ul class="list-group">
-        <li
-          class="list-group-item"
-          *ngFor="let file of files; let i = index"
-          [class.active]="i == currentIndex"
-          (click)="setActiveFile(file, i)"
-        >
-          {{ file.name }}
-        </li>
-      </ul>
-  
-      <button class="m-3 btn btn-sm btn-danger" (click)="removeAllFiles()">
-        Remove All
-      </button>
-    </div>
-    <div class="col-md-6">
-      <div *ngIf="currentFile.id">
-        <h4>File</h4>
-        <div>
-          <label><strong>name:</strong></label> {{ currentFile.name }}
-        </div>
-        <div>
-          <label><strong>Url:</strong></label>
-          {{ currentFile.url }}
-        </div>
-        <div>
-          <label><strong>Status:</strong></label>
-          
-        </div>
-  
-        <a class="badge badge-warning" routerLink="/files/{{ currentFile.id }}">
-          Edit
-        </a>
-      </div>
-  
-      <div *ngIf="!currentFile">
-        <br />
-        <p>Please click on a File...</p>
-      </div>
+    
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col" >Size (bits)</th>
+            <th scope="col">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of files; let i = index">
+            <td>{{ file.id }}</td>
+            <td>{{ file.name }}</td>
+            <td class="align-right">{{ file.size }}</td>
+            <td>{{ file.created }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
