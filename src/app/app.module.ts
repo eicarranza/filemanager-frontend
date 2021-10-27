@@ -8,12 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FilesListComponent } from './components/files-list/files-list.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { FileSettingsComponent } from './components/file-settings/file-settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FilesListComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    FileSettingsComponent
   ],
   imports: [
     BrowserModule,

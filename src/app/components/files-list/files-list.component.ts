@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { File } from 'src/app/models/file.model';
 import { FilesService } from 'src/app/services/files.service';
+import { Settings } from 'src/app/models/settings.model';
 
 
 @Component({
@@ -10,14 +11,17 @@ import { FilesService } from 'src/app/services/files.service';
 })
 export class FilesListComponent implements OnInit {
   files?: File[];
+  filesAllowed?: Settings[];
   currentFile: File = {};
   currentIndex = -1;
   name = '';
+  url = 'http://localhost:8000';
 
   constructor(private fileService: FilesService) { }
 
   ngOnInit(): void {
     this.retrieveFiles();
+    this.getFilesAllowed();
   }
 
   retrieveFiles(): void {
@@ -25,7 +29,17 @@ export class FilesListComponent implements OnInit {
       .subscribe(
         data => {
           this.files = data;
-          console.log(data);
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  getFilesAllowed(): void {
+    this.fileService.getFilesAllowed()
+      .subscribe(
+        data => {
+          this.filesAllowed = data;
         },
         error => {
           console.log(error);
@@ -36,38 +50,6 @@ export class FilesListComponent implements OnInit {
     this.retrieveFiles();
     this.currentFile = {}
     this.currentIndex = -1;
-  }
-
-  setActiveFile(file: File, index: number): void {
-    this.currentFile = file;
-    this.currentIndex = index;
-  }
-
-  removeAllFiles(): void {
-    this.fileService.deleteAll()
-      .subscribe(
-        response => {
-          console.log(response);
-          this.refreshList();
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
-  searchName(): void {
-    this.currentFile = {};
-    this.currentIndex = -1;
-
-    this.fileService.findByName(this.name)
-      .subscribe(
-        data => {
-          this.files = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
   }
 
 }
