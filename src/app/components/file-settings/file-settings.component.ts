@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FileSettings } from 'src/app/models/file-settings.model';
 import { Settings } from 'src/app/models/settings.model';
 import { FilesService } from 'src/app/services/files.service';
 
@@ -10,12 +11,15 @@ import { FilesService } from 'src/app/services/files.service';
 export class FileSettingsComponent implements OnInit {
   filesAllowed?: Settings[];
   fileAllowedSelected?: Settings;
+  fileSettings?: FileSettings;
+  maxSizeFile?: number = 0;
   message?: string;
 
   constructor(private fileService: FilesService) { }
 
   ngOnInit(): void {
     this.getFilesAllowed();
+    this.getMaxSizeFile();
   }
   
   onClick(fileAllowedSelected: Settings, event: Event) {
@@ -36,8 +40,35 @@ export class FileSettingsComponent implements OnInit {
         });
   }
 
+  getMaxSizeFile(): void {
+    this.fileService.getMaxSizeFile()
+      .subscribe(
+        data => {
+          this.maxSizeFile = data.value;
+          this.fileSettings = data;
+          console.log(data.value);
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
   updateFileAllowed(fileAllowedSelected: Settings) {
     this.fileService.updateFilesAllowed(fileAllowedSelected.id, fileAllowedSelected)
+      .subscribe(
+        response => {
+          this.message = response.message ? response.message : 'The status was updated successfully!';
+          this.getFilesAllowed();
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  onUpdate() {
+    this.fileSettings!.value = this.maxSizeFile;
+    console.log(this.fileSettings);
+    this.fileService.updateMaxSizeFile(this.fileSettings!.id, this.fileSettings!)
       .subscribe(
         response => {
           this.message = response.message ? response.message : 'The status was updated successfully!';

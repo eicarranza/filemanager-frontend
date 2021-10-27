@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { FileSettings } from '../models/file-settings.model';
 import { File } from '../models/file.model';
 import { Settings } from '../models/settings.model';
+
 
 const baseUrl = 'http://localhost:8000/files/'
 
@@ -38,5 +40,13 @@ export class FilesService {
 
   updateFilesAllowed(id: any, data: any): Observable<any> {
     return this.http.put(`${baseUrl}files_allowed/${id}`, data);
+  }
+
+  getMaxSizeFile(): Observable<FileSettings> {
+    return this.http.get<FileSettings>(`${baseUrl}file_settings`);
+  }
+
+  updateMaxSizeFile(id: any, data: any): Observable<any> {
+    return this.http.put(`${baseUrl}file_settings/${id}`, data);
   }
 }

@@ -26,3 +26,26 @@
             </table>
     </div>
 </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+      <h5>Set up size file</h5>
+  </div>
+  
+  <div class="card-body">
+    <p class="card-text">Choose max size allowed to upload files.</p>
+
+    <input class="form-control" type="text" [(ngModel)]="maxSizeFile">
+  </div>
+  <div class="card-body">
+    <button (click)="onUpdate()" 
+        class="btn btn-success">
+        Update
+    </button>
+  </div>
+
+  <div class="container">
+    <h3>{{ message }}</h3>
+  </div>
+</div>
