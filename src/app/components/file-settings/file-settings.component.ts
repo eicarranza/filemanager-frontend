@@ -23,7 +23,6 @@ export class FileSettingsComponent implements OnInit {
     this.fileAllowedSelected = fileAllowedSelected;
     this.fileAllowedSelected.is_active = element.checked;
     this.updateFileAllowed(this.fileAllowedSelected);
-    
   }
 
   getFilesAllowed(): void {
@@ -42,6 +41,7 @@ export class FileSettingsComponent implements OnInit {
       .subscribe(
         response => {
           this.message = response.message ? response.message : 'The status was updated successfully!';
+          this.getFilesAllowed();
         },
         error => {
           console.log(error);

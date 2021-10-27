@@ -1,38 +1,13 @@
-<div class="card" *ngFor="let fileAllowed of filesAllowed; let i = index">
+<div class="card" *ngFor="let fileType of filesAllowed; let i = index">
     <div class="card-header">
-        <h5>{{ fileAllowed.name }}</h5>
+        <h5>{{ fileType.name }}</h5>
     </div>
     
   <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped table-sm">
-        <thead>
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
-            <th scope="col" >Size (bits)</th>
-            <th scope="col">Created</th>
-            <th scope="col">Download</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let file of files; let i = index">
-            <td>{{ file.id }}</td>
-            <td>{{ file.name }}</td>
-            <td class="align-right">{{ file.size }}</td>
-            <td>{{ file.created }}</td>
-            <th scope="col">
-              
-                <a href ="{{url}}{{ file.url }}" class="nav-link" target="_blank">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" aria-hidden="true">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                  
-                </a>
-              
-            </th>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <app-files-table 
+        [fileTypeExtension]='fileType.extension'
+        [files]='files'
+    >
+    </app-files-table>
   </div>
 </div>

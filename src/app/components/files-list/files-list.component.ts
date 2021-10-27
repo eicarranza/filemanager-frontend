@@ -13,7 +13,6 @@ export class FilesListComponent implements OnInit {
   files?: File[];
   filesAllowed?: Settings[];
   currentFile: File = {};
-  currentIndex = -1;
   name = '';
   url = 'http://localhost:8000';
 
@@ -45,11 +44,4 @@ export class FilesListComponent implements OnInit {
           console.log(error);
         });
   }
-
-  refreshList(): void {
-    this.retrieveFiles();
-    this.currentFile = {}
-    this.currentIndex = -1;
-  }
-
 }

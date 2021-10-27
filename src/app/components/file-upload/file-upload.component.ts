@@ -28,12 +28,15 @@ export class FileUploadComponent implements OnInit {
   }
 
   getFilesAllowed(): void {
+
     this.filesService.getFilesAllowed()
       .subscribe(
         data => {
-          this.filesAllowed = data;
-          this.extensions = this.filesAllowed.map(e => e.extension).join(",");
-          console.log(this.extensions);
+          this.filesAllowed = data.filter(e => e.is_active);
+          this.extensions = this.filesAllowed.map(
+                    (e) => {
+                      return ".".concat(e.extension!);
+                    }).join(",");
         },
         error => {
           console.log(error);
@@ -45,18 +48,23 @@ export class FileUploadComponent implements OnInit {
       .subscribe(
         data => {
           this.filesAllowed = data;
-          console.log(this.filesAllowed);
         },
         error => {
           console.log(error);
         });
   }
 
-  isFileValid(fileType: any){
-    let is_validType: number | undefined;
-
-    is_validType = this.filesAllowed?.findIndex(({ extension }) => extension === fileType);
-    return is_validType;
+  isFileValid(fileType: string){
+    let validTypes= this.extensions.split(',');
+    
+    if(validTypes.findIndex(item=>item === ".".concat(fileType)) < 0) {
+      console.log("False");
+      return false;
+    }  
+    else{
+      console.log("True");
+      return true;
+    }
   }
 
   onUpload() {
@@ -77,7 +85,7 @@ export class FileUploadComponent implements OnInit {
           });
     }
     else{
-      console.log("Type of file non valid.");
+      this.message = "Type of file non valid.";
     };    
   }
 }

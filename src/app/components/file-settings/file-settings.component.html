@@ -8,7 +8,6 @@
             <table class="table table-striped table-sm">
               <thead>
                 <tr>
-                  <th scope="col">Id</th>
                   <th scope="col">Name</th>
                   <th scope="col" >Extension</th>
                   <th scope="col">Is enabled?</th>
@@ -16,15 +15,12 @@
               </thead>
               <tbody>
                 <tr *ngFor="let fileAllowed of filesAllowed; let i = index">
-                  <td>{{ fileAllowed.id }}</td>
                   <td>{{ fileAllowed.name }}</td>
                   <td>{{ fileAllowed.extension }}</td>
-                  <td> 
-                      <input 
-                        type="checkbox" 
-                        checked="{{ fileAllowed.is_active }}"
-                        (click)="onClick(fileAllowed, $event)">
+                  <td *ngIf="fileAllowed.is_active; else elseBlock"> 
+                      <input type="checkbox" checked (click)="onClick(fileAllowed, $event)">
                     </td>
+                    <ng-template #elseBlock><input type="checkbox" (click)="onClick(fileAllowed, $event)"></ng-template>
                 </tr>
               </tbody>
             </table>
