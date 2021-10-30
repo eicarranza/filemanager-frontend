@@ -17,12 +17,12 @@ export class FilesListComponent implements OnInit {
   errorMessage: string = "";
   url = "http://localhost:8000";
 
-  constructor(private fileService: FilesService) { }
-
-  ngOnInit(): void {
+  constructor(private fileService: FilesService) { 
     this.retrieveFiles();
     this.getFilesAllowed();
   }
+
+  ngOnInit(): void { }
 
   retrieveFiles(): void {
     this.fileService.getAll()

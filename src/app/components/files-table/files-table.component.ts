@@ -20,8 +20,7 @@ export class FilesTableComponent implements OnInit {
   from:number = 0;
   to:number = 5;
   
-  ngOnInit(): void {     
-  }
+  ngOnInit(): void {}
 
   changePage(e:PageEvent){
     this.from = e.pageIndex * e.pageSize;

@@ -20,11 +20,13 @@ export class FileUploadComponent implements OnInit {
   errorMessage: string = "";
   maxSizeFile?: number = 0;
   
-  constructor(private filesService: FilesService) { }
-
-  ngOnInit(): void {
+  constructor(private filesService: FilesService) { 
     this.getFilesAllowed();
     this.getMaxSizeFile();
+  }
+
+  ngOnInit(): void {
+    
   }
 
   onChange(event: any) {

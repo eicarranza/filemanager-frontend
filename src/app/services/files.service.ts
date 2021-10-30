@@ -7,47 +7,48 @@ import { File } from '../models/file.model';
 import { Settings } from '../models/settings.model';
 
 
-const baseUrl = 'http://localhost:8000/files/'
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FilesService {
-
+  baseUrl = 'http://localhost:8000/files/'
+  
   constructor(private http: HttpClient) { }
   
   getAll(): Observable<File[]> {
-    return this.http.get<File[]>(`${baseUrl}`);
+    return this.http.get<File[]>(`${this.baseUrl}`);
   }
 
   get(id: any): Observable<File[]> {
-    return this.http.get<File[]>(`${baseUrl}filtered_files/${id}`);
+    return this.http.get<File[]>(`${this.baseUrl}filtered_files/${id}`);
   }
 
   create(data: any): Observable<any> {
-    return this.http.post(baseUrl, data);
+    return this.http.post(this.baseUrl, data);
   }
 
   public upload(file: any):Observable<any>{
     const formData = new FormData();
     formData.append("file", file, file.name);
-    return this.http.post(`${baseUrl}upload`, formData);
+    return this.http.post(`${this.baseUrl}upload`, formData);
   }
 
   getFilesAllowed(): Observable<Settings[]> {
-    return this.http.get<Settings[]>(`${baseUrl}files_allowed`);
+    return this.http.get<Settings[]>(`${this.baseUrl}files_allowed`);
   }
 
   updateFilesAllowed(id: any, data: any): Observable<any> {
-    return this.http.put(`${baseUrl}files_allowed/${id}`, data);
+    return this.http.put(`${this.baseUrl}files_allowed/${id}`, data);
   }
 
   getMaxSizeFile(): Observable<FileSettings> {
-    return this.http.get<FileSettings>(`${baseUrl}file_settings`);
+    return this.http.get<FileSettings>(`${this.baseUrl}file_settings`);
   }
 
   updateMaxSizeFile(id: any, data: any): Observable<any> {
-    return this.http.put(`${baseUrl}file_settings/${id}`, data);
+    return this.http.put(`${this.baseUrl}file_settings/${id}`, data);
   }
 
 }
