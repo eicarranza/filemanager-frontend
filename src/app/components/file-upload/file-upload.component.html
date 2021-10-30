@@ -1,7 +1,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h5>Upload file</h5>
+        <h2>Upload file</h2>
     </div>
     
   <div class="card-body">
@@ -21,8 +21,12 @@
   <div class="container" *ngIf="loading">
     <h3>Loading ...</h3>
   </div>
-  <div class="container">
+  <div class="alert alert-success" role="alert" *ngIf="message!=''">
     <h3>{{ message }}</h3>
+  </div>
+
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage!=''">
+    <h3>{{ errorMessage }}</h3>
   </div>
 
 </div>

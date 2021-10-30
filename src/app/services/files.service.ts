@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { FileSettings } from '../models/file-settings.model';
 import { File } from '../models/file.model';
 import { Settings } from '../models/settings.model';
@@ -30,7 +31,6 @@ export class FilesService {
   public upload(file: any):Observable<any>{
     const formData = new FormData();
     formData.append("file", file, file.name);
-    console.log(formData);
     return this.http.post(`${baseUrl}upload`, formData);
   }
 
@@ -49,4 +49,5 @@ export class FilesService {
   updateMaxSizeFile(id: any, data: any): Observable<any> {
     return this.http.put(`${baseUrl}file_settings/${id}`, data);
   }
+
 }

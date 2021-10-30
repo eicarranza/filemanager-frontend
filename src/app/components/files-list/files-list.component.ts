@@ -13,8 +13,9 @@ export class FilesListComponent implements OnInit {
   files?: File[];
   filesAllowed?: Settings[];
   currentFile: File = {};
-  name = '';
-  url = 'http://localhost:8000';
+  name: string = "";
+  errorMessage: string = "";
+  url = "http://localhost:8000";
 
   constructor(private fileService: FilesService) { }
 
@@ -30,7 +31,7 @@ export class FilesListComponent implements OnInit {
           this.files = data;
         },
         error => {
-          console.log(error);
+          this.errorMessage = error.message;
         });
   }
 
@@ -41,7 +42,24 @@ export class FilesListComponent implements OnInit {
           this.filesAllowed = data;
         },
         error => {
-          console.log(error);
+          this.errorMessage = error.message;
         });
   }
+
+  sendFilesFiltered(extension:any): File[]{
+    let filesFiltered = this.files!.filter((file) =>{
+      return file.extension === extension;
+    });
+
+    return filesFiltered;
+  }
+
+  sendFilesFilteredLength(extension:any): number{
+    let filesFiltered = this.files!.filter((file) =>{
+      return file.extension === extension;
+    });
+
+    return filesFiltered.length;
+  }
 }
+

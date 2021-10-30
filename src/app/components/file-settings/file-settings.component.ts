@@ -13,7 +13,8 @@ export class FileSettingsComponent implements OnInit {
   fileAllowedSelected?: Settings;
   fileSettings?: FileSettings;
   maxSizeFile?: number = 0;
-  message?: string;
+  errorMessage?: string = "";
+  message?: string = "";
 
   constructor(private fileService: FilesService) { }
 
@@ -36,7 +37,7 @@ export class FileSettingsComponent implements OnInit {
           this.filesAllowed = data;
         },
         error => {
-          console.log(error);
+          this.errorMessage = error.message;
         });
   }
 
@@ -45,11 +46,10 @@ export class FileSettingsComponent implements OnInit {
       .subscribe(
         data => {
           this.maxSizeFile = data.value;
-          this.fileSettings = data;
-          console.log(data.value);
+          this.fileSettings = data
         },
         error => {
-          console.log(error);
+          this.errorMessage = error.message;
         });
   }
 
@@ -61,7 +61,7 @@ export class FileSettingsComponent implements OnInit {
           this.getFilesAllowed();
         },
         error => {
-          console.log(error);
+          this.errorMessage = error.message;
         });
   }
 
@@ -75,7 +75,7 @@ export class FileSettingsComponent implements OnInit {
           this.getFilesAllowed();
         },
         error => {
-          console.log(error);
+          this.errorMessage = error.message;
         });
   }
 }

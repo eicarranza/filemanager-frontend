@@ -1,4 +1,4 @@
-<div class="table-responsive" *ngIf="length>0">
+<div class="table-responsive" *ngIf="filesFilteredLength!>0">
     <table class="table table-striped table-sm">
       <thead>
         <tr>
@@ -11,7 +11,7 @@
       </thead>
       <tbody *ngFor="let file of filesFiltered | slice:from:to">
         <tr>
-            <td>{{ file.id }} + {{ length }}</td>
+            <td>{{ file.id }}</td>
             <td>{{ file.name }}</td>
             <td class="align-right">{{ file.size }}</td>
             <td>{{ file.created }}</td>
@@ -29,7 +29,7 @@
       </tbody>
     </table>
 
-    <mat-paginator [length]=length
+    <mat-paginator [length]=filesFilteredLength
               [pageSize]="pageSize"
               (page)="changePage($event)">
   </mat-paginator>

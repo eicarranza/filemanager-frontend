@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h5>Created files</h5>
+        <h2 class="card-title">Created files</h2>
     </div>
     
     <div class="card-body">
@@ -30,13 +30,13 @@
 
 <div class="card">
   <div class="card-header">
-      <h5>Set up size file</h5>
+      <h2 class="card-title">Set up size file</h2>
   </div>
   
   <div class="card-body">
     <p class="card-text">Choose max size allowed to upload files.</p>
 
-    <input class="form-control" type="text" [(ngModel)]="maxSizeFile">
+    <input class="form-control" type="text" [(ngModel)]="maxSizeFile" maxlength="4294967290">
   </div>
   <div class="card-body">
     <button (click)="onUpdate()" 
@@ -45,7 +45,11 @@
     </button>
   </div>
 
-  <div class="container">
+  <div class="alert alert-success" role="alert" *ngIf="message!=''">
     <h3>{{ message }}</h3>
+  </div>
+
+  <div class="alert alert-danger" role="alert" *ngIf="errorMessage!=''">
+    <h3>{{ errorMessage }}</h3>
   </div>
 </div>

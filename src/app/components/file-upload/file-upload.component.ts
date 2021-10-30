@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FilesService } from 'src/app/services/files.service';
 import { Settings } from 'src/app/models/settings.model';
 import { FileSettings } from 'src/app/models/file-settings.model';
+import { BOOL_TYPE } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-file-upload',
@@ -11,12 +12,12 @@ import { FileSettings } from 'src/app/models/file-settings.model';
 
 export class FileUploadComponent implements OnInit {
 
-  shortLink: string = "";
   loading: boolean = false;
   file:any = false;
   filesAllowed?: Settings[];
   extensions: string = "";
   message: string = "";
+  errorMessage: string = "";
   maxSizeFile?: number = 0;
   
   constructor(private filesService: FilesService) { }
@@ -37,12 +38,11 @@ export class FileUploadComponent implements OnInit {
           this.maxSizeFile = data.value;
         },
         error => {
-          console.log(error);
+          this.errorMessage = error.message;
         });
   }
 
   getFilesAllowed(): void {
-
     this.filesService.getFilesAllowed()
       .subscribe(
         data => {
@@ -53,22 +53,39 @@ export class FileUploadComponent implements OnInit {
                     }).join(",");
         },
         error => {
-          console.log(error);
-        });
-  }
-  
-  fileValidations(): void {
-    this.filesService.getFilesAllowed()
-      .subscribe(
-        data => {
-          this.filesAllowed = data;
-        },
-        error => {
-          console.log(error);
+          this.errorMessage = error.message;
         });
   }
 
-  isFileValid(fileType: string){
+  onUpload() {
+    this.message = "";
+
+    if(!this.isSizeValid(this.file)) {
+      this.errorMessage = "The file size exceed the allowed. File size: " + this.file.size + ".Size allowed: " + this.maxSizeFile + ".  ";
+    }
+    else {
+      if(this.isFileValid(this.file)){
+        this.loading = !this.loading;
+        this.uploadFile(this.file);
+      }
+      else{
+        this.errorMessage = "Type of file non valid.";
+      };
+    }
+  }
+
+  isSizeValid(file:any): boolean{
+    if(file.size > this.maxSizeFile!){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+  
+  isFileValid(file: any): boolean{
+    let fileType = file.name.split('.').pop();
+    
     let validTypes= this.extensions.split(',');
     if(validTypes.findIndex(item=>item === ".".concat(fileType)) < 0) {
       return false;
@@ -78,41 +95,24 @@ export class FileUploadComponent implements OnInit {
     }
   }
 
-  isSizeValid(file:any){
-    if(file.size > this.maxSizeFile!){
-      return false;
-    }
-    else{
-      return true;
-    }
-    
+  uploadFile(file:any): boolean{
+    let uploadStatus = false;
+
+    this.filesService.upload(file)
+      .subscribe(
+        (event: any) => {
+          if(typeof(event) === 'object') {
+            this.loading = false;
+            this.message = "File uploaded succesfully.";
+            this.errorMessage = "";
+          }
+        },
+        error => {
+          console.log(error);
+          uploadStatus = false;
+        });
+
+    return uploadStatus;
   }
 
-  onUpload() {
-    let fileType = this.file.name.split('.').pop();
-    
-    if(!this.isSizeValid(this.file)) {
-      this.message = "The file size exceed the allowed. File size: " + this.file.size + ".Size allowed: " + this.maxSizeFile + ".  ";
-    }
-    else {
-      if(this.isFileValid(fileType)){
-        this.loading = !this.loading;
-        this.filesService.upload(this.file)
-          .subscribe(
-            (event: any) => {
-              if(typeof (event) === 'object') {
-                this.shortLink = event.link;
-                this.loading = false;
-                this.message = "File uploaded succesfully."
-              }
-            },
-            error => {
-              console.log(error);
-            });
-      }
-      else{
-        this.message = "Type of file non valid.";
-      };    
-    }
-  }
 }
